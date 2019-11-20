@@ -1,0 +1,113 @@
+复选框自定义样式：
+  	   <div class="checkitem">
+                        <input type="checkbox" class="checkbox" id="c_all">
+                        <label class="checklabel" for="c_all"><span>全选</span></label>
+                    </div>
+
+                   <div class=" checkitem">
+                        <input type="checkbox" class="checkbox c_one" id="c_one_1">
+                        <label class="checklabel" for="c_one_1"></label>
+                    </div>
+
+
+.checkitem {
+    display: inline-block;
+    height: 20px;
+}
+.checkitem .checkbox {
+    display: none; }
+.checkitem .checklabel span {
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    float: left;
+    margin-left: 14px;
+    user-select: none; }
+.checkitem .checklabel::before {
+    width: 20px;
+    height: 20px;
+    content: '';
+    display: inline-block;
+    background-image: url(../images/img11.png);
+    background-size: 100% 100%;
+    float: left;
+    cursor: pointer; }
+.checkitem .checkbox:checked + .checklabel::before {
+    background-image: url(../images/img10.png); }
+
+单选框自定义样式：
+    		        <div class="radioitem">
+                                            <input type="radio" class="radio" id="level_1_1" name="level_1">
+                                            <label class="radiolabel" for="level_1_1"></label>
+                                        </div>
+
+.radioitem {
+    display: inline-block;
+    height: 20px; }
+.radioitem .radio {
+    display: none; }
+.radioitem .radiolabel span {
+    height: 20px;
+    line-height: 20px;
+    display: inline-block;
+    float: left;
+    margin-left: 3px;
+    user-select: none;
+    cursor: pointer; }
+.radioitem .radiolabel::before {
+    width: 15px;
+    height: 15px;
+    content: '';
+    display: inline-block;
+    background-image: url(../images/radio1.png);
+    background-size: 100% 100%;
+    float: left;
+    cursor: pointer;
+    margin-top:7px; }
+.radioitem .radio:checked + .radiolabel::before {
+    background-image: url(../images/radio2.png); }
+
+
+
+
+
+
+
+
+//用户中心全选
+$("#c_all").on("change",function(){
+	var isChecked = $(this).prop("checked");
+	if(isChecked){
+		$(".checklist").find("input").prop("checked",true);
+	}else{
+		$(".checklist").find("input").prop("checked",false);
+	}
+});
+//用户中心选择商品
+$(".c_one").on("change",function(){
+	console.log($(".goods-list .checkitem").length);
+	console.log($(".goods-list .checkitem").find("input:checked").length);
+	
+//	检测是否店铺全选
+	if($(this).parents(".store-item").find(".goodscheck input:checked").length == $(this).parents(".store-item").find(".goodscheck input").length){
+		$(this).parents(".store-item").find(".storecheck input").prop("checked",true);
+	}else{
+		$(this).parents(".store-item").find(".storecheck input").prop("checked",false);
+	};
+	
+//	检测是否所有商品是否全选
+	if($(this).parents(".checklist").find(".goodscheck input:checked").length == $(this).parents(".checklist").find(".goodscheck input").length){
+		$("#c_all").prop("checked",true);
+	}else{
+		$("#c_all").prop("checked",false);
+	};
+});
+//用户中心店铺或者订单选择
+$(".c_store").on("change",function(){
+//	检测是否店铺都选上了
+	if($(this).parents(".checklist").find(".storecheck input:checked").length == $(this).parents(".checklist").find(".storecheck input").length){
+		$("#c_all").prop("checked",true);
+	}else{
+		$("#c_all").prop("checked",false);
+	};
+});
